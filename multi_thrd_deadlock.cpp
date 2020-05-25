@@ -1,3 +1,4 @@
+//Avoiding Dead Lock
 #include <iostream>
 #include <thread>
 #include <mutex>
@@ -14,7 +15,11 @@ public:
 	
 	void shared_print1(string str)
 	{
+		//Avoiding dead lock here
 		lock(mu1, mu2);
+		
+		//Two mutex locks used in different orders
+		//may cause deadlock
 		lock_guard<mutex> locker1(mu1, adopt_lock);
 		lock_guard<mutex> locker2(mu2, adopt_lock);
 		cout<<"Thread Info: "<<str<<endl;
